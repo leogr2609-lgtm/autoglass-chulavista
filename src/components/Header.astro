@@ -1,0 +1,44 @@
+---
+export interface Props {
+  phone: string;
+}
+const { phone } = Astro.props;
+const phoneTel = `tel:${phone.replace(/\D/g, '')}`;
+---
+<header class="w-full bg-white z-50 shadow-sm border-b border-gray-200">
+  <!-- Top Utility Bar -->
+  <div class="bg-[#0f172a] text-gray-300 text-[11px] md:text-xs py-1.5 px-4 md:px-8 font-medium tracking-wide uppercase">
+    <div class="max-w-[1200px] mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-4 md:gap-6">
+        <span class="inline-flex items-center gap-1.5">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-action" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          Serving South San Diego County
+        </span>
+      </div>
+      <div class="flex items-center gap-4 md:gap-6">
+        <span class="hidden sm:inline-flex items-center gap-1.5">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-action" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          Mon-Sat 8AM-6PM
+        </span>
+        <span class="inline-flex items-center font-bold text-white">
+          HABLAMOS ESPAÑOL
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Bar -->
+  <div class="max-w-[1200px] mx-auto px-4 md:px-8 h-14 md:h-16 flex items-center justify-between">
+    <!-- Brand / Logo -->
+    <a href="/" class="flex items-center no-underline transition-opacity hover:opacity-90">
+      <img src="/autoglassmobileservice-logo.png" alt="Auto Glass Mobile Service" class="h-[40px] md:h-[48px] w-auto" />
+    </a>
+
+    <!-- CTA Button -->
+    <a href={phoneTel} class="btn btn-primary btn-md md:btn-lg gap-2.5">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 md:w-5 md:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+      <span class="hidden md:inline">Call {phone}</span>
+      <span class="md:hidden">Call Now</span>
+    </a>
+  </div>
+</header>

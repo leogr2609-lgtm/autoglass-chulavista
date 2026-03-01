@@ -1,0 +1,219 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  /* Brand Colors — Deep Navy Vibe */
+  --color-primary: #0a2540;
+  --color-primary-hover: #07192b;
+  --color-primary-light: #f1f5f9;
+  --color-accent: #1e3a8a;
+
+  /* CTA Colors — Retained Vibrant Red */
+  --color-action: #e63946;
+  --color-action-hover: #c52f3a;
+
+  /* UI Colors */
+  --color-ui-base: #ffffff;
+  --color-ui-alt: #f8fafc;
+  --color-ui-section: #f1f5f9;
+  --color-ui-text-main: #0f172a;
+  --color-ui-text-muted: #475569;
+  --color-ui-border: #cbd5e1;
+
+  /* Utility Colors */
+  --color-star: #f59e0b;
+
+  /* Fonts */
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+/* ===== BASE STYLES ===== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--color-ui-text-main);
+  background-color: var(--color-ui-alt);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@media (min-width: 768px) {
+  body {
+    font-size: 17px;
+  }
+}
+
+/* ===== TYPOGRAPHY ===== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: 36px;
+  line-height: 1.15;
+}
+
+@media (min-width: 768px) {
+  h1 {
+    font-size: 52px;
+    line-height: 1.1;
+  }
+}
+
+h2 {
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+@media (min-width: 768px) {
+  h2 {
+    font-size: 40px;
+  }
+}
+
+h3 {
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+@media (min-width: 768px) {
+  h3 {
+    font-size: 24px;
+  }
+}
+
+p {
+  line-height: 1.7;
+  color: var(--color-ui-text-muted);
+}
+
+/* ===== SECTION HEADINGS ===== */
+
+.section-heading {
+  text-align: center;
+  margin-bottom: 4.5rem;
+}
+
+.section-heading h2 {
+  margin-bottom: 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.section-heading p {
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.15rem;
+  color: #334155;
+}
+
+/* ===== BUTTONS ===== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 800;
+  border-radius: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background-color: var(--color-action);
+  color: white;
+  box-shadow: 0 4px 0px #b91c1c;
+  /* Heavy bottom shadow for tactile feel */
+}
+
+.btn-primary:hover {
+  background-color: var(--color-action-hover);
+  box-shadow: 0 4px 0px #991b1b;
+}
+
+.btn-primary:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0px #991b1b;
+}
+
+.btn-lg {
+  font-size: 1.125rem;
+  padding: 1rem 2rem;
+}
+
+.btn-md {
+  font-size: 1rem;
+  padding: 0.75rem 1.75rem;
+}
+
+/* ===== CARDS ===== */
+
+.card {
+  background: var(--color-ui-base);
+  border: 1px solid var(--color-ui-border);
+  border-radius: 0;
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  border-color: #94a3b8;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== SECTION SEPARATORS ===== */
+
+.section-light {
+  background-color: var(--color-ui-base);
+}
+
+.section-alt {
+  background-color: var(--color-ui-alt);
+}
+
+.section-muted {
+  background-color: var(--color-ui-section);
+}
+
+/* ===== UTILITY ANIMATIONS ===== */
+
+@keyframes subtle-pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.animate-pulse-slow {
+  animation: subtle-pulse 2s ease-in-out infinite;
+}

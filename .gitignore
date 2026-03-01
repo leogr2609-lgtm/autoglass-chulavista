@@ -12,6 +12,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+build.log
 
 # environment variables
 .env
@@ -22,3 +23,13 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# VS Code
+.vscode/
+
+# scripts (dev tools only)
+scripts/
+
+# duplicate/temp favicon files
+public/favicon nuevo.svg
+public/new-favicon.svg

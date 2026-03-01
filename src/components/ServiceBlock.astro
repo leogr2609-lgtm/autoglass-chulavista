@@ -1,0 +1,150 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  image: string;
+  highlights?: string[];
+  details?: string[];
+  phone: string;
+}
+const { title, description, image, highlights = [], details = [], phone } = Astro.props;
+const phoneTel = `tel:${phone.replace(/\D/g, '')}`;
+const cardId = title.toLowerCase().replace(/[^a-z0-9]/g, '-');
+---
+<div class="service-card card flex flex-col h-full bg-white overflow-hidden group" id={`card-${cardId}`}>
+  <!-- Service Image with Brand Treatment -->
+  <div class="w-full aspect-[4/3] relative overflow-hidden">
+    <img
+      src={image}
+      alt={title}
+      loading="lazy"
+      class="service-img"
+    />
+    <div class="service-overlay"></div>
+  </div>
+  
+  <div class="service-body p-7 md:p-9 flex flex-col flex-grow">
+    <!-- Title -->
+    <h3 class="text-[22px] md:text-[26px] font-extrabold mb-3 text-[#0f172a] leading-tight group-hover:text-primary transition-colors">{title}</h3>
+    
+    <!-- Description -->
+    <p class="text-[15px] leading-relaxed mb-4" style="color: #475569;">{description}</p>
+
+    <!-- Always-visible highlights -->
+    {highlights.length > 0 && (
+      <div class="flex flex-wrap gap-2 mb-5">
+        {highlights.map(h => (
+          <span class="inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-full bg-[#eef4ff] border border-[#dbeafe]" style="color: #1e40af;">
+            <svg class="w-3.5 h-3.5 text-green-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+            </svg>
+            {h}
+          </span>
+        ))}
+      </div>
+    )}
+
+    <!-- Spacer to push Learn More + Button to bottom -->
+    <div class="flex-grow"></div>
+
+    <!-- Expandable Details -->
+    {details.length > 0 && (
+      <div class="mb-5">
+        <button
+          type="button"
+          class="service-toggle inline-flex items-center gap-2 text-[#0a2540] text-[13px] font-bold uppercase tracking-wider hover:text-primary transition-colors cursor-pointer bg-transparent border-none p-0"
+          data-target={`details-${cardId}`}
+          aria-expanded="false"
+        >
+          <span class="toggle-text">Learn More</span>
+          <svg class="toggle-icon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        
+        <div id={`details-${cardId}`} class="service-details">
+          <ul class="mt-4 space-y-2.5 pt-4 border-t border-gray-100">
+            {details.map(detail => (
+              <li class="flex items-start gap-2.5 text-[14px] leading-snug" style="color: #334155;">
+                <svg class="w-4 h-4 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                </svg>
+                {detail}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    )}
+    
+    <!-- CTA Button — always at bottom -->
+    <a href={phoneTel} class="btn btn-primary w-full py-3.5 text-sm md:text-base">
+      Schedule Service
+    </a>
+  </div>
+</div>
+
+<style>
+  .service-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(30%) brightness(0.95);
+    transform: scale(1.05);
+    transition: all 0.5s ease-out;
+  }
+
+  .service-card:hover .service-img {
+    filter: grayscale(0%) brightness(1);
+    transform: scale(1.1);
+  }
+
+  .service-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(10, 37, 64, 0.35);
+    transition: all 0.5s ease-out;
+  }
+
+  .service-card:hover .service-overlay {
+    background-color: rgba(10, 37, 64, 0.15);
+  }
+
+  /* Expandable panel */
+  .service-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+    opacity: 0;
+  }
+
+  .service-details.is-open {
+    max-height: 300px;
+    opacity: 1;
+  }
+
+  .toggle-icon {
+    transition: transform 0.3s ease;
+  }
+
+  .service-toggle[aria-expanded="true"] .toggle-icon {
+    transform: rotate(180deg);
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.service-toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-target');
+        const panel = document.getElementById(targetId);
+        const textEl = btn.querySelector('.toggle-text');
+        const isOpen = panel.classList.contains('is-open');
+        
+        panel.classList.toggle('is-open');
+        btn.setAttribute('aria-expanded', String(!isOpen));
+        textEl.textContent = isOpen ? 'Learn More' : 'Show Less';
+      });
+    });
+  });
+</script>

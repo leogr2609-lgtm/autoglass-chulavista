@@ -1,46 +1,45 @@
-# Astro Starter Kit: Basics
+# Auto Glass Mobile Service — Chula Vista, CA
 
-```sh
-npm create astro@latest -- --template basics
+Professional landing page for Auto Glass Mobile Service, a mobile auto glass repair and replacement business serving Chula Vista and South San Diego County.
+
+## 🚀 Tech Stack
+
+- **[Astro](https://astro.build/)** — Static site generator
+- **[Tailwind CSS](https://tailwindcss.com/)** — Utility-first CSS
+- **TypeScript** — Type safety
+
+## 📦 Quick Start
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## 🌐 Deployment
 
-## 🚀 Project Structure
+This site is deployed on [Vercel](https://vercel.com) with automatic deployments from the `main` branch.
 
-Inside of your Astro project, you'll see the following folders and files:
+**Domain:** [autoglasschulavistaca.com](https://autoglasschulavistaca.com)
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+## 📋 SEO
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+- Schema.org JSON-LD (LocalBusiness)
+- Open Graph + Twitter Cards
+- Auto-generated sitemap
+- robots.txt
+- Optimized meta descriptions
 
-## 🧞 Commands
+## 📞 Business Info
 
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- **Phone:** +1 (760) 880-0711
+- **Address:** 1165 Third Ave, Chula Vista, CA 91911
+- **Hours:** Mon-Fri 7AM-6PM, Sat 7AM-2PM

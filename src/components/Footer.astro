@@ -1,0 +1,57 @@
+---
+interface Props {
+  phone: string;
+  address: string;
+  businessName: string;
+}
+const { phone, address, businessName } = Astro.props;
+const currentYear = new Date().getFullYear();
+const phoneTel = `tel:${phone.replace(/\D/g, '')}`;
+---
+<footer class="bg-[#0f1729] text-gray-400 pt-14 md:pt-20 pb-8">
+  <div class="max-w-[1200px] mx-auto px-4 md:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 pb-12 border-b border-white/10">
+      <!-- About / Logo -->
+      <div>
+        <div class="flex items-center gap-2.5 mb-5">
+          <a href="/">
+            <img src="/autoglassmobileservice-logo.png" alt="Auto Glass Mobile Service" class="h-[50px] w-auto brightness-0 invert" />
+          </a>
+        </div>
+        <p class="mb-6 text-sm leading-relaxed max-w-sm">Providing fast, reliable mobile auto glass repair and replacement services directly to your location in Chula Vista and South San Diego County.</p>
+        <a href={phoneTel} class="text-white text-xl font-bold hover:text-accent transition-colors flex items-center gap-2.5">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-action" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+          {phone}
+        </a>
+      </div>
+
+      <!-- Services Column -->
+      <div>
+        <h4 class="text-white text-base font-bold mb-5 pl-3 border-l-2 border-primary">Services</h4>
+        <ul class="space-y-3 text-sm">
+          <li><a href="#services" class="hover:text-white transition-colors duration-200">Windshield Replacement</a></li>
+          <li><a href="#services" class="hover:text-white transition-colors duration-200">Rock Chip Repair</a></li>
+          <li><a href="#services" class="hover:text-white transition-colors duration-200">Door Glass Replacement</a></li>
+          <li><a href="#services" class="hover:text-white transition-colors duration-200">Window Regulator Repair</a></li>
+          <li><a href="#services" class="hover:text-white transition-colors duration-200">Leak & Molding Repair</a></li>
+        </ul>
+      </div>
+
+      <!-- Service Area Column -->
+      <div>
+        <h4 class="text-white text-base font-bold mb-5 pl-3 border-l-2 border-primary">Service Area</h4>
+        <p class="mb-4 text-sm">{address}</p>
+        <p class="text-sm leading-relaxed">We provide mobile service to Chula Vista, National City, Bonita, Imperial Beach, San Ysidro, Otay Mesa, Eastlake, and surrounding South San Diego County areas.</p>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="pt-8 text-xs text-gray-500 flex flex-col md:flex-row justify-between items-center gap-4">
+      <p>&copy; {currentYear} {businessName}. All rights reserved.</p>
+      <div class="flex gap-6">
+        <a href="#" class="hover:text-gray-300 transition-colors duration-200">Privacy Policy</a>
+        <a href="#" class="hover:text-gray-300 transition-colors duration-200">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>

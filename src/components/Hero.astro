@@ -1,0 +1,112 @@
+---
+interface Props {
+  headline: string;
+  subheadline: string;
+  phone: string;
+}
+const { headline, subheadline, phone } = Astro.props;
+const phoneTel = `tel:${phone.replace(/\D/g, '')}`;
+---
+<section class="relative bg-[var(--color-primary)] text-white overflow-hidden border-b-8 border-action">
+  <!-- Image & Dynamic Background Pattern -->
+  <div class="absolute inset-0 z-0 bg-[#041e42]">
+    <!-- Main Hero Image -->
+    <div class="absolute inset-0 bg-[url('/hero-op.webp')] bg-cover bg-center bg-no-repeat opacity-60"></div>
+    
+    <!-- Subtle Gradient Overlay -->
+    <div class="absolute inset-0 bg-gradient-to-br from-[#041e42] via-[#0a2540] to-[#07192b] opacity-60"></div>
+    
+    <!-- Abstract Shattered SVG Background -->
+    <svg class="absolute inset-0 w-full h-full opacity-30" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="glassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.8" />
+          <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+        </linearGradient>
+      </defs>
+      <!-- Large abstract shards -->
+      <path d="M0,0 L250,0 L150,300 Z" fill="url(#glassGrad)" opacity="0.1" />
+      <path d="M100vw,0 Lcalc(100vw - 300px),0 Lcalc(100vw - 100px),400 Z" fill="url(#glassGrad)" opacity="0.15" />
+      <path d="M0,100vh L200,100vh L50,calc(100vh - 400px) Z" fill="url(#glassGrad)" opacity="0.12" />
+      <path d="M50vw,100vh Lcalc(50vw + 200px),100vh Lcalc(50vw + 50px),calc(100vh - 500px) Z" fill="url(#glassGrad)" opacity="0.08" />
+      
+      <!-- Cracks / Lines -->
+      <path d="M-100,50 Q 200,150 400,-50" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.15" fill="none" />
+      <path d="M100vw,200 Q calc(100vw - 300px),300 calc(100vw - 600px),100" stroke="#ffffff" stroke-width="1" stroke-opacity="0.2" fill="none" />
+      <path d="M300,100vh Q 450,calc(100vh - 300px) 200,calc(100vh - 600px)" stroke="#ffffff" stroke-width="0.5" stroke-opacity="0.25" fill="none" />
+      <path d="Mcalc(100vw - 200px),100vh Q calc(100vw - 400px),calc(100vh - 200px) calc(100vw - 100px),calc(100vh - 500px)" stroke="#ffffff" stroke-width="2" stroke-opacity="0.1" fill="none" />
+    </svg>
+    <div class="absolute inset-0 bg-gradient-to-t from-[var(--color-primary)] via-transparent to-transparent opacity-80"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="relative z-10 max-w-[1200px] mx-auto px-4 md:px-8 py-24 md:py-32 lg:py-36">
+    <div class="flex flex-col lg:flex-row items-center gap-14 lg:gap-12">
+      
+      <!-- Left Column: Copy -->
+      <div class="w-full lg:w-3/5 text-center lg:text-left">
+        <!-- Badge -->
+        <div class="inline-flex items-center gap-2 text-[#94a3b8] text-xs uppercase tracking-[0.2em] font-semibold mb-6">
+          <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse-slow"></span>
+          PROFESSIONAL MOBILE SERVICE
+        </div>
+
+        <!-- Headline -->
+        <h1 class="text-4xl md:text-5xl lg:text-[56px] font-black mb-8 leading-[1.15] text-white max-w-[540px] mx-auto lg:mx-0">
+          {headline}
+        </h1>
+
+        <!-- Subheadline -->
+        <p class="text-[17px] md:text-[19px] mt-2 mb-0 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium" style="color: #e2e8f0;">
+          {subheadline}
+        </p>
+      </div>
+
+      <!-- Right Column: Call Widget -->
+      <div class="w-full sm:max-w-sm lg:w-2/5 shrink-0 mx-auto lg:mx-0">
+        <!-- Floating Widget Container -->
+        <div class="bg-gradient-to-b from-[#1a3a5f] to-[#0d2a4a] rounded-sm shadow-[0_16px_40px_-10px_rgba(0,0,0,0.5)] border border-white/10 overflow-hidden relative group">
+          
+          <!-- Top Accent Banner -->
+          <div class="bg-[#1e3a5f] border-t-2 border-action py-2.5 px-5 text-center relative z-10">
+            <h3 class="text-white font-bold text-base uppercase tracking-wider m-0">
+              Quick & Easy
+            </h3>
+          </div>
+
+          <!-- Number & CTA Section -->
+          <div class="p-5 text-center relative">
+            <p class="text-xs font-semibold uppercase tracking-widest mb-3" style="color: #cbd5e1;">Speak to a Technician Now</p>
+            
+            <a href={phoneTel} class="inline-flex items-center justify-center gap-3 mb-5 group-hover:scale-[1.02] transition-transform duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-action animate-pulse-slow" viewBox="0 0 24 24" fill="currentColor"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
+              <span class="text-white font-black text-3xl sm:text-4xl tracking-tight">{phone}</span>
+            </a>
+
+            <!-- Explicit CTA Button -->
+            <a href={phoneTel} class="btn btn-primary w-full text-base py-3 mb-4 shadow-[#991b1b]">
+              CALL TO SCHEDULE
+            </a>
+
+            <!-- Mini Trust Ribbons -->
+            <div class="grid grid-cols-2 gap-4 text-xs sm:text-sm font-bold text-white">
+              <div class="bg-white/10 rounded-sm py-2.5 px-4 border border-white/10 flex items-center justify-center gap-2">
+                <svg class="w-4 h-4 text-green-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Fast Response
+              </div>
+              <div class="bg-white/10 rounded-sm py-2.5 px-4 border border-white/10 flex items-center justify-center gap-2">
+                <svg class="w-4 h-4 text-green-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                Free Quotes
+              </div>
+            </div>
+            
+          </div>
+          
+          <!-- Glossy overlay effect -->
+          <div class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</section>
