@@ -10,7 +10,7 @@ import Footer from '../components/Footer.astro';
 
 const business = {
   name: "Auto Glass Mobile Service - Chula Vista CA",
-  phone: "+1 (760) 880-0711",
+  phone: "(760) 880-0711",
   address: "1165 Third Ave, Chula Vista, CA 91911",
   email: "youautoglass@gmail.com"
 };
@@ -18,13 +18,14 @@ const business = {
 const services = [
   {
     title: "Windshield Replacement",
-    description: "Professional windshield replacement with high-quality glass. We come to you.",
-    image: "/windshield-replacement-installation.webp",
-    highlights: ["OEM-equivalent glass", "~1 hour safe-drive-away"],
+    description: "Professional windshield replacement with high-quality glass. In shop or at your location.",
+    image: "/wr-black-car.webp",
+    images: ["/wr-green-suv.webp", "/wr-jeep.webp"],
+    highlights: ["OEM-equivalent glass", "Work & parts guaranteed"],
     details: [
       "Full removal & professional reinstallation",
       "Factory-quality fit with OEM-equivalent glass",
-      "Safe-drive-away time: approximately 1 hour",
+      "Ready to drive as soon as service is complete",
       "Includes seal and molding inspection"
     ]
   },
@@ -32,23 +33,25 @@ const services = [
     title: "Windshield Rock Chip Repair",
     description: "Quick repairs to stop chips and cracks before they spread.",
     image: "/windshield-rock-chip-repair.webp",
-    highlights: ["Done in ~20 minutes", "Stops cracks from spreading"],
+    images: ["/rc-chip-closeup.webp", "/rc-chip-interior.webp", "/rc-chip-bullseye.webp"],
+    highlights: ["Stops cracks from spreading", "In shop & mobile service"],
     details: [
       "Resin injection to restore structural integrity",
-      "Completed in approximately 20 minutes",
       "Best results when repaired within 48 hours",
-      "Maintains windshield structural integrity"
+      "Maintains windshield structural integrity",
+      "All work and parts guaranteed"
     ]
   },
   {
     title: "Door Glass Replacement",
-    description: "Shattered side window? We clean up and install a new one on site.",
+    description: "Shattered side window? We clean up and install a new one on site or at our shop.",
     image: "/door-glass-replacement.webp",
-    highlights: ["Tempered safety glass", "Same-day mobile service"],
+    images: ["/dg-quarter-glass.webp"],
+    highlights: ["Tempered safety glass", "Work & parts guaranteed"],
     details: [
       "Complete side window removal and glass cleanup",
       "Tempered safety glass for all vehicle models",
-      "Same-day mobile service available",
+      "In shop and mobile service available",
       "Includes weatherstrip and seal check"
     ]
   },
@@ -56,6 +59,7 @@ const services = [
     title: "Window Regulator Repair",
     description: "Window stuck or won't roll up? We fix motors and regulators.",
     image: "/window-regulator-repair.webp",
+    images: ["/wr-regulator-part.webp"],
     highlights: ["On-site diagnosis", "Parts sourced same-day"],
     details: [
       "Motor and regulator diagnosis on site",
@@ -66,26 +70,27 @@ const services = [
   },
   {
     title: "Back Glass Replacement",
-    description: "Rear windshield replacement including defrost grid reconnection.",
+    description: "Complete rear windshield replacement for all vehicle types.",
     image: "/back-glass-replacement.webp",
-    highlights: ["Defrost grid reconnected", "All vehicle types"],
+    images: ["/bg-pickup-red.webp"],
+    highlights: ["Laminated safety glass option", "All vehicle types"],
     details: [
       "Complete rear windshield replacement",
-      "Defrost grid and wiring reconnection",
+      "Laminated safety glass available as an option",
       "Includes trim and seal replacement",
-      "Available for all vehicle types"
+      "All work and parts guaranteed"
     ]
   },
   {
     title: "Leak & Molding Repair",
     description: "Sealing leaks and securing loose molding to protect your interior.",
     image: "/windshield-leak-molding-repair.webp",
-    highlights: ["Water test diagnosis", "Usually under 1 hour"],
+    highlights: ["Water test diagnosis", "All work guaranteed"],
     details: [
       "Pinpoint leak source with water testing",
       "Replace worn molding and rubber seals",
       "Prevents interior water damage",
-      "Quick turnaround, usually under 1 hour"
+      "All work and parts guaranteed"
     ]
   }
 ];
@@ -111,16 +116,16 @@ const whyChooseUs = [
     description: "Most jobs completed the same day you call."
   },
   {
-    title: "Mobile Service",
-    description: "We come to your home, work, or wherever you are. No towing."
+    title: "In Shop & Mobile",
+    description: "Visit our shop or we come to your home, work, or wherever you are."
   },
   {
-    title: "Quality Materials",
-    description: "OEM-equivalent glass and industry-grade adhesives for a lasting fit."
+    title: "Work & Parts Guaranteed",
+    description: "All labor and parts backed by our warranty for your peace of mind."
   },
   {
-    title: "Free Estimates",
-    description: "No-obligation phone quote. Honest pricing upfront."
+    title: "Free Phone Quotes",
+    description: "Call us for a no-obligation estimate. Honest pricing upfront."
   }
 ];
 
@@ -135,8 +140,8 @@ const coverageAreas = [
 
   <main>
     <Hero
-      headline="Mobile Auto Glass Repair & Replacement in Chula Vista"
-      subheadline="Fast, reliable on-site service for cracked windshields, broken door glass, and stuck windows. Get back on the road safely today."
+      headline="In Shop or Mobile Auto Glass Service in Chula Vista Serving All San Diego CA"
+      subheadline="Fast, reliable auto glass repair and replacement — at our shop or your location. Cracked windshields, broken door glass, and stuck windows. Get back on the road safely today."
       phone={business.phone}
     />
 
@@ -145,10 +150,10 @@ const coverageAreas = [
       <div class="max-w-[1200px] mx-auto px-4 md:px-8">
         <div class="section-heading">
           <h2>Our Auto Glass Services</h2>
-          <p>We handle all common vehicle glass issues directly at your location in South San Diego County or at our local shop.</p>
+          <p>We handle all common vehicle glass issues at our shop or directly at your location across San Diego County.</p>
           <div class="inline-flex items-center gap-2 mt-4 text-[#0a2540] text-sm font-semibold tracking-wide">
             <svg class="w-4 h-4 text-action" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-            Mobile Service Available — We Come to You
+            In Shop & Mobile Service — We Come to You or Visit Our Shop
           </div>
         </div>
 
@@ -158,6 +163,7 @@ const coverageAreas = [
               title={service.title} 
               description={service.description}
               image={service.image}
+              images={service.images}
               highlights={service.highlights}
               details={service.details}
               phone={business.phone}
@@ -193,7 +199,7 @@ const coverageAreas = [
     <!-- ===== CTA ===== -->
     <CtaBlock
       headline="Don't let a cracked windshield get worse."
-      subheadline="We come to you anywhere in South San Diego County."
+      subheadline="Visit our shop or we come to you anywhere in San Diego County."
       phone={business.phone}
     />
 

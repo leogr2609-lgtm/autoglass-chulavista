@@ -33,3 +33,12 @@ scripts/
 # duplicate/temp favicon files
 public/favicon nuevo.svg
 public/new-favicon.svg
+
+# original source photos (unprocessed)
+public/Windshield Replacement/
+public/Back glass.jpeg
+public/quarter glass.jpeg
+public/rock chip.jpg
+public/rock chip.webp
+public/Rock-Chip-In-Windshield.webp
+public/window regulator.jpeg
