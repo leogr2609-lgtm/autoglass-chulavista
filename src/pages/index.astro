@@ -7,13 +7,36 @@ import CtaBlock from '../components/CtaBlock.astro';
 import ContactBlock from '../components/ContactBlock.astro';
 import StickyCallBar from '../components/StickyCallBar.astro';
 import Footer from '../components/Footer.astro';
+import { serviceAreas } from '../data/serviceAreas';
+import { business, coreServices } from '../data/business';
 
-const business = {
-  name: "Auto Glass Mobile Service - Chula Vista CA",
-  phone: "(760) 880-0711",
-  address: "1165 Third Ave, Chula Vista, CA 91911",
-  email: "youautoglass@gmail.com"
-};
+const homeSchemas = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    serviceType: "Mobile Auto Glass Service",
+    provider: {
+      "@type": "AutoRepair",
+      name: business.name,
+      telephone: business.phoneE164
+    },
+    areaServed: serviceAreas.map((area) => ({
+      "@type": "City",
+      name: area.city
+    })),
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Auto Glass Services",
+      itemListElement: coreServices.map((service) => ({
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: service
+        }
+      }))
+    }
+  }
+];
 
 const services = [
   {
@@ -21,9 +44,9 @@ const services = [
     description: "Professional windshield replacement with high-quality glass. In shop or at your location.",
     image: "/wr-black-car.webp",
     images: ["/wr-green-suv.webp", "/wr-jeep.webp"],
-    highlights: ["OEM-equivalent glass", "Work & parts guaranteed"],
+    highlights: ["OEM-equivalent glass", "Work and parts guaranteed"],
     details: [
-      "Full removal & professional reinstallation",
+      "Full removal and professional reinstallation",
       "Factory-quality fit with OEM-equivalent glass",
       "Ready to drive as soon as service is complete",
       "Includes seal and molding inspection"
@@ -34,7 +57,7 @@ const services = [
     description: "Quick repairs to stop chips and cracks before they spread.",
     image: "/rc-chip-closeup.webp",
     images: ["/rc-chip-interior.webp", "/rc-chip-bullseye.webp"],
-    highlights: ["Stops cracks from spreading", "In shop & mobile service"],
+    highlights: ["Stops cracks from spreading", "In shop and mobile service"],
     details: [
       "Resin injection to restore structural integrity",
       "Best results when repaired within 48 hours",
@@ -47,7 +70,7 @@ const services = [
     description: "Shattered side window? We clean up and install a new one on site or at our shop.",
     image: "/door-glass-replacement.webp",
     images: ["/dg-quarter-glass.webp"],
-    highlights: ["Tempered safety glass", "Work & parts guaranteed"],
+    highlights: ["Tempered safety glass", "Work and parts guaranteed"],
     details: [
       "Complete side window removal and glass cleanup",
       "Tempered safety glass for all vehicle models",
@@ -82,7 +105,7 @@ const services = [
     ]
   },
   {
-    title: "Leak & Molding Repair",
+    title: "Leak and Molding Repair",
     description: "Sealing leaks and securing loose molding to protect your interior.",
     image: "/windshield-leak-molding-repair.webp",
     highlights: ["Water test diagnosis", "All work guaranteed"],
@@ -116,11 +139,11 @@ const whyChooseUs = [
     description: "Most jobs completed the same day you call."
   },
   {
-    title: "In Shop & Mobile",
+    title: "In Shop and Mobile",
     description: "Visit our shop or we come to your home, work, or wherever you are."
   },
   {
-    title: "Work & Parts Guaranteed",
+    title: "Work and Parts Guaranteed",
     description: "All labor and parts backed by our warranty for your peace of mind."
   },
   {
@@ -129,51 +152,51 @@ const whyChooseUs = [
   }
 ];
 
-const coverageAreas = [
-  "Chula Vista", "National City", "Bonita", "Imperial Beach",
-  "San Ysidro", "Otay Mesa", "Eastlake"
-];
+const coverageAreas = serviceAreas;
 ---
 
-<Layout title="Auto Glass Mobile Service | Chula Vista CA">
-  <Header phone={business.phone} />
+<Layout
+  title="Auto Glass Chula Vista CA | Mobile Windshield Replacement and Repair"
+  description="Mobile auto glass service in Chula Vista and nearby South San Diego County. Windshield replacement, rock chip repair, door glass, back glass, and regulator repair."
+  canonicalUrl={business.siteDomain}
+  structuredData={homeSchemas}
+>
+  <Header phone={business.phoneDisplay} />
 
   <main>
     <Hero
       headline="In Shop or Mobile Auto Glass Service in Chula Vista Serving All San Diego CA"
-      subheadline="Fast, reliable auto glass repair and replacement — at our shop or your location. Cracked windshields, broken door glass, and stuck windows. Get back on the road safely today."
-      phone={business.phone}
+      subheadline="Fast, reliable auto glass repair and replacement - at our shop or your location. Cracked windshields, broken door glass, and stuck windows. Get back on the road safely today."
+      phone={business.phoneDisplay}
     />
 
-    <!-- ===== SERVICES ===== -->
     <section id="services" class="py-16 md:py-24 bg-ui-alt">
       <div class="max-w-[1200px] mx-auto px-4 md:px-8">
         <div class="section-heading">
           <h2>Our Auto Glass Services</h2>
-          <p>We handle all common vehicle glass issues at our shop or directly at your location across San Diego County.</p>
+          <p>We handle common vehicle glass issues at our shop or directly at your location across South San Diego County.</p>
           <div class="inline-flex items-center gap-2 mt-4 text-[#0a2540] text-sm font-semibold tracking-wide">
             <svg class="w-4 h-4 text-action" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-            In Shop & Mobile Service — We Come to You or Visit Our Shop
+            In Shop and Mobile Service - We Come to You or Visit Our Shop
           </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
-          {services.map(service => (
-            <ServiceBlock 
-              title={service.title} 
+          {services.map((service) => (
+            <ServiceBlock
+              title={service.title}
               description={service.description}
               image={service.image}
               images={service.images}
               highlights={service.highlights}
               details={service.details}
-              phone={business.phone}
+              phone={business.phoneDisplay}
             />
           ))}
         </div>
       </div>
     </section>
 
-    <!-- ===== WHY CHOOSE US ===== -->
     <section class="py-16 md:py-24 bg-white border-y border-ui-border">
       <div class="max-w-[1200px] mx-auto px-4 md:px-8">
         <div class="section-heading">
@@ -184,7 +207,6 @@ const coverageAreas = [
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-14">
           {whyChooseUs.map((item, index) => (
             <div class="group relative pl-16">
-              <!-- Number Indicator -->
               <div class="absolute left-0 top-0 text-5xl font-black text-primary/30 group-hover:text-action transition-colors duration-300 leading-none">
                 0{index + 1}
               </div>
@@ -196,14 +218,12 @@ const coverageAreas = [
       </div>
     </section>
 
-    <!-- ===== CTA ===== -->
     <CtaBlock
       headline="Don't let a cracked windshield get worse."
-      subheadline="Visit our shop or we come to you anywhere in San Diego County."
-      phone={business.phone}
+      subheadline="Visit our shop or we come to you anywhere in South San Diego County."
+      phone={business.phoneDisplay}
     />
 
-    <!-- ===== REVIEWS ===== -->
     <section class="py-16 md:py-24 bg-ui-alt">
       <div class="max-w-[1200px] mx-auto px-4 md:px-8">
         <div class="section-heading">
@@ -211,30 +231,22 @@ const coverageAreas = [
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-          {reviews.map(review => (
+          {reviews.map((review) => (
             <div class="card p-7 md:p-8 border-l-4 border-l-primary relative">
-              <!-- Quote Mark -->
               <div class="absolute top-4 right-6 text-6xl font-serif text-primary/10 leading-none select-none">"</div>
-
-              <!-- Stars -->
               <div class="flex gap-0.5 mb-4">
                 {[...Array(5)].map(() => (
                   <svg class="w-5 h-5 text-star" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
                 ))}
               </div>
-
-              <!-- Quote -->
               <p class="italic text-ui-text-muted mb-5 text-[15px] leading-relaxed relative z-10">"{review.text}"</p>
-
-              <!-- Customer -->
-              <p class="font-semibold text-sm text-ui-text-main">— {review.name}</p>
+              <p class="font-semibold text-sm text-ui-text-main">- {review.name}</p>
             </div>
           ))}
         </div>
       </div>
     </section>
 
-    <!-- ===== COVERAGE AREA ===== -->
     <section class="py-12 md:py-16 bg-white border-y border-ui-border">
       <div class="max-w-[1200px] mx-auto px-4 md:px-8 text-center">
         <div class="flex items-center justify-center gap-2.5 mb-6">
@@ -244,16 +256,21 @@ const coverageAreas = [
           <h3 class="text-xl font-bold">Areas We Serve in South San Diego County</h3>
         </div>
         <div class="flex flex-wrap justify-center gap-3">
-          {coverageAreas.map(area => (
-            <span class="px-4 py-2 bg-ui-alt border border-ui-border rounded-full text-sm font-medium text-ui-text-muted hover:border-primary/40 hover:text-primary transition-colors duration-200 cursor-default">{area}</span>
+          {coverageAreas.map((area) => (
+            <a
+              href={`/auto-glass/${area.slug}`}
+              class="px-4 py-2 bg-ui-alt border border-ui-border rounded-full text-sm font-medium text-ui-text-muted hover:border-primary/40 hover:text-primary transition-colors duration-200"
+            >
+              {area.city}, CA
+            </a>
           ))}
         </div>
       </div>
     </section>
 
-    <ContactBlock phone={business.phone} address={business.address} />
+    <ContactBlock phone={business.phoneDisplay} address={business.address} />
   </main>
 
-  <Footer businessName={business.name} phone={business.phone} address={business.address} />
-  <StickyCallBar phone={business.phone} />
+  <Footer businessName={business.legalName} phone={business.phoneDisplay} address={business.address} />
+  <StickyCallBar phone={business.phoneDisplay} />
 </Layout>

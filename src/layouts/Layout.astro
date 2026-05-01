@@ -1,20 +1,80 @@
 ---
 import '../styles/global.css';
+import { business } from '../data/business';
 
 interface Props {
 	title: string;
 	description?: string;
 	canonicalUrl?: string;
 	ogImage?: string;
+	structuredData?: Record<string, unknown>[];
 }
 
-const siteDomain = "https://autoglasschulavistaca.com";
 const { 
 	title, 
 	description = "Auto Glass Mobile Service in Chula Vista CA. Professional windshield replacement, rock chip repair, and mobile auto glass service across South San Diego County. Call +1 (760) 880-0711.",
-	canonicalUrl = siteDomain,
-	ogImage = `${siteDomain}/og-image.png`
+	canonicalUrl = business.siteDomain,
+	ogImage = `${business.siteDomain}${business.ogImage}`,
+	structuredData = []
 } = Astro.props;
+
+const baseSchemas = [
+	{
+		"@context": "https://schema.org",
+		"@type": "WebSite",
+		"name": business.name,
+		"url": business.siteDomain
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "AutoRepair",
+		"name": business.name,
+		"description": "Professional mobile auto glass repair and windshield replacement service in Chula Vista and South San Diego County.",
+		"url": business.siteDomain,
+		"telephone": business.phoneE164,
+		"email": business.email,
+		"address": {
+			"@type": "PostalAddress",
+			"streetAddress": "1165 Third Ave",
+			"addressLocality": "Chula Vista",
+			"addressRegion": "CA",
+			"postalCode": "91911",
+			"addressCountry": "US"
+		},
+		"geo": {
+			"@type": "GeoCoordinates",
+			"latitude": 32.6401,
+			"longitude": -117.0842
+		},
+		"areaServed": [
+			{ "@type": "City", "name": "Chula Vista" },
+			{ "@type": "City", "name": "National City" },
+			{ "@type": "City", "name": "Bonita" },
+			{ "@type": "City", "name": "Imperial Beach" },
+			{ "@type": "City", "name": "San Ysidro" },
+			{ "@type": "City", "name": "Spring Valley" }
+		],
+		"openingHoursSpecification": [
+			{
+				"@type": "OpeningHoursSpecification",
+				"dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+				"opens": "07:00",
+				"closes": "18:00"
+			},
+			{
+				"@type": "OpeningHoursSpecification",
+				"dayOfWeek": "Saturday",
+				"opens": "07:00",
+				"closes": "14:00"
+			}
+		],
+		"priceRange": "$$",
+		"image": `${business.siteDomain}${business.ogImage}`,
+		"sameAs": []
+	}
+];
+
+const allSchemas = [...baseSchemas, ...structuredData];
 ---
 
 <!doctype html>
@@ -79,67 +139,9 @@ const {
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		
-		<!-- Schema.org JSON-LD (LocalBusiness) -->
-		<script type="application/ld+json" set:html={JSON.stringify({
-			"@context": "https://schema.org",
-			"@type": "AutoRepair",
-			"name": "Auto Glass Mobile Service",
-			"description": "Professional mobile auto glass repair and windshield replacement service in Chula Vista and South San Diego County.",
-			"url": siteDomain,
-			"telephone": "+17608800711",
-			"email": "youautoglass@gmail.com",
-			"address": {
-				"@type": "PostalAddress",
-				"streetAddress": "1165 Third Ave",
-				"addressLocality": "Chula Vista",
-				"addressRegion": "CA",
-				"postalCode": "91911",
-				"addressCountry": "US"
-			},
-			"geo": {
-				"@type": "GeoCoordinates",
-				"latitude": 32.6401,
-				"longitude": -117.0842
-			},
-			"areaServed": [
-				{ "@type": "City", "name": "Chula Vista" },
-				{ "@type": "City", "name": "National City" },
-				{ "@type": "City", "name": "Bonita" },
-				{ "@type": "City", "name": "Imperial Beach" },
-				{ "@type": "City", "name": "San Ysidro" },
-				{ "@type": "City", "name": "Otay Mesa" },
-				{ "@type": "City", "name": "Eastlake" }
-			],
-			"openingHoursSpecification": [
-				{
-					"@type": "OpeningHoursSpecification",
-					"dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-					"opens": "07:00",
-					"closes": "18:00"
-				},
-				{
-					"@type": "OpeningHoursSpecification",
-					"dayOfWeek": "Saturday",
-					"opens": "07:00",
-					"closes": "14:00"
-				}
-			],
-			"priceRange": "$$",
-			"image": `${siteDomain}/og-image.png`,
-			"hasOfferCatalog": {
-				"@type": "OfferCatalog",
-				"name": "Auto Glass Services",
-				"itemListElement": [
-					{ "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Windshield Replacement" } },
-					{ "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Windshield Rock Chip Repair" } },
-					{ "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Door Glass Replacement" } },
-					{ "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Window Regulator Repair" } },
-					{ "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Back Glass Replacement" } },
-					{ "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Leak & Molding Repair" } }
-				]
-			},
-			"sameAs": []
-		})} />
+		{allSchemas.map((schema) => (
+			<script type="application/ld+json" set:html={JSON.stringify(schema)} />
+		))}
 
 		<meta name="generator" content={Astro.generator} />
 	</head>

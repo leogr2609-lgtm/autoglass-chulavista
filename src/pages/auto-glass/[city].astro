@@ -1,0 +1,196 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import CtaBlock from '../../components/CtaBlock.astro';
+import ContactBlock from '../../components/ContactBlock.astro';
+import Footer from '../../components/Footer.astro';
+import StickyCallBar from '../../components/StickyCallBar.astro';
+import { serviceAreas } from '../../data/serviceAreas';
+import { business, coreServices } from '../../data/business';
+
+export async function getStaticPaths() {
+  return serviceAreas.map((area) => ({
+    params: { city: area.slug }
+  }));
+}
+
+const { city } = Astro.params;
+const area = serviceAreas.find((item) => item.slug === city);
+
+if (!area) {
+  return Astro.redirect('/');
+}
+
+const pageTitle = `Auto Glass ${area.city} CA | Mobile Windshield Repair & Replacement`;
+const pageDescription = `Auto glass service in ${area.city}, ${area.state}. Mobile windshield replacement, rock chip repair, door glass, back glass, leak repair, and regulator service. Call ${business.phoneDisplay}.`;
+const canonicalUrl = `${business.siteDomain}/auto-glass/${area.slug}`;
+const sameAreaLinks = serviceAreas.filter((item) => item.slug !== area.slug);
+const faqs = area.faq;
+const pageSchemas = [
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.a
+    }
+  }))
+},
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: business.siteDomain
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: `Auto Glass ${area.city}, ${area.state}`,
+      item: canonicalUrl
+    }
+  ]
+},
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  serviceType: "Auto Glass Repair and Replacement",
+  areaServed: {
+    "@type": "City",
+    name: area.city
+  },
+  provider: {
+    "@type": "AutoRepair",
+    name: business.name,
+    telephone: business.phoneE164,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "1165 Third Ave",
+      addressLocality: "Chula Vista",
+      addressRegion: "CA",
+      postalCode: "91911",
+      addressCountry: "US"
+    }
+  },
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: `Auto Glass Services in ${area.city}`,
+    itemListElement: coreServices.map((service) => ({
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "Service",
+        name: service
+      }
+    }))
+  }
+}
+];
+---
+
+<Layout title={pageTitle} description={pageDescription} canonicalUrl={canonicalUrl} structuredData={pageSchemas}>
+  <Header phone={business.phoneDisplay} />
+
+  <main>
+    <section class="py-16 md:py-24 bg-ui-base border-b border-ui-border">
+      <div class="max-w-[1200px] mx-auto px-4 md:px-8">
+        <nav class="text-sm mb-5 text-ui-text-muted">
+          <a href="/" class="hover:text-primary transition-colors">Home</a>
+          <span class="mx-2">/</span>
+          <span>Auto Glass {area.city}, {area.state}</span>
+        </nav>
+        <p class="text-sm font-semibold uppercase tracking-wide text-primary mb-4">Serving {area.city}, {area.state}</p>
+        <h1 class="mb-5">Mobile Auto Glass and Windshield Replacement in {area.city}, {area.state}</h1>
+        <p class="text-lg max-w-3xl mb-6">{area.intro}</p>
+        <p class="text-base max-w-3xl mb-6">{area.localFocus}</p>
+        <div class="inline-flex items-center gap-2.5 text-sm font-semibold text-[#0a2540] bg-[#eef4ff] border border-[#dbeafe] px-4 py-2.5">
+          <span>Estimated arrival in {area.city}: {area.eta}</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 md:py-20 bg-ui-alt">
+      <div class="max-w-[1200px] mx-auto px-4 md:px-8">
+        <div class="section-heading">
+          <h2>Services in {area.city}</h2>
+          <p>We provide mobile and in-shop service for the most common auto glass needs.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {coreServices.map((service) => (
+            <div class="card p-6">
+              <h3 class="text-xl mb-2">{service}</h3>
+              <p class="text-sm">Available for drivers in {area.city}, with same-day scheduling when possible.</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="py-12 md:py-16 bg-ui-base border-y border-ui-border">
+      <div class="max-w-[1200px] mx-auto px-4 md:px-8">
+        <div class="section-heading">
+          <h2>{area.city} Coverage Focus</h2>
+          <p>Areas where we commonly schedule mobile service in and around {area.city}.</p>
+        </div>
+        <div class="flex flex-wrap justify-center gap-3">
+          {area.nearbyZones.map((zone) => (
+            <span class="px-4 py-2 bg-ui-alt border border-ui-border rounded-full text-sm font-medium text-ui-text-muted">
+              {zone}
+            </span>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <CtaBlock
+      headline={`Need auto glass service in ${area.city}?`}
+      subheadline={`Call now for a free phone estimate in ${area.city} and fast scheduling.`}
+      phone={business.phoneDisplay}
+    />
+
+    <section class="py-16 md:py-20 bg-ui-base border-y border-ui-border">
+      <div class="max-w-[1200px] mx-auto px-4 md:px-8">
+        <div class="section-heading">
+          <h2>Frequently Asked Questions</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {faqs.map((faq) => (
+            <div class="card p-6">
+              <h3 class="text-lg mb-3">{faq.q}</h3>
+              <p class="text-sm">{faq.a}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="py-12 md:py-16 bg-white">
+      <div class="max-w-[1200px] mx-auto px-4 md:px-8">
+        <div class="section-heading">
+          <h2>Nearby Areas We Serve</h2>
+          <p>Explore nearby city pages in our 13-mile service area.</p>
+        </div>
+        <div class="flex flex-wrap gap-3 justify-center">
+          {sameAreaLinks.map((item) => (
+            <a
+              href={`/auto-glass/${item.slug}`}
+              class="px-4 py-2 bg-ui-alt border border-ui-border text-sm font-medium text-ui-text-muted hover:border-primary/40 hover:text-primary transition-colors duration-200"
+            >
+              Auto Glass {item.city}, {item.state}
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <ContactBlock phone={business.phoneDisplay} address={business.address} />
+  </main>
+
+  <Footer businessName={business.legalName} phone={business.phoneDisplay} address={business.address} />
+  <StickyCallBar phone={business.phoneDisplay} />
+</Layout>
