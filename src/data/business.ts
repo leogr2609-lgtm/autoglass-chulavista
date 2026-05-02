@@ -5,7 +5,7 @@ export const business = {
   phoneE164: "+17608800711",
   address: "1165 Third Ave, Chula Vista, CA 91911",
   email: "youautoglass@gmail.com",
-  siteDomain: "https://autoglasschulavistaca.com",
+  siteDomain: "https://www.autoglasschulavistaca.com",
   ogImage: "/og-image.png",
   hours: {
     weekdays: "Mon - Fri: 7:00 AM - 6:00 PM",

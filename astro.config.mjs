@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://autoglasschulavistaca.com',
+  site: 'https://www.autoglasschulavistaca.com',
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()]
