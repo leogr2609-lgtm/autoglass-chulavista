@@ -1,0 +1,14 @@
+# ----------------------------------------------------------------------
+# Force HTTPS and Non-WWW (Canonical Redirect 301)
+# ----------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # If a www version of the URL is requested, redirect to non-www
+    RewriteCond %{HTTP_HOST} ^www\.autoglasschulavistaca\.com$ [NC]
+    RewriteRule ^(.*)$ https://autoglasschulavistaca.com/$1 [L,R=301]
+    
+    # If the request is not HTTPS, redirect to HTTPS
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://autoglasschulavistaca.com/$1 [L,R=301]
+</IfModule>

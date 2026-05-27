@@ -21,8 +21,8 @@ if (!area) {
   return Astro.redirect('/');
 }
 
-const pageTitle = `Auto Glass ${area.city} CA | Mobile Windshield Repair & Replacement`;
-const pageDescription = `Auto glass service in ${area.city}, ${area.state}. Mobile windshield replacement, rock chip repair, door glass, back glass, leak repair, and regulator service. Call ${business.phoneDisplay}.`;
+const pageTitle = area.seoTitle;
+const pageDescription = area.seoDescription;
 const canonicalUrl = `${business.siteDomain}/auto-glass/${area.slug}`;
 const sameAreaLinks = serviceAreas.filter((item) => item.slug !== area.slug);
 const faqs = area.faq;
@@ -106,8 +106,11 @@ const pageSchemas = [
         </nav>
         <p class="text-sm font-semibold uppercase tracking-wide text-primary mb-4">Serving {area.city}, {area.state}</p>
         <h1 class="mb-5">Mobile Auto Glass and Windshield Replacement in {area.city}, {area.state}</h1>
-        <p class="text-lg max-w-3xl mb-6">{area.intro}</p>
-        <p class="text-base max-w-3xl mb-6">{area.localFocus}</p>
+        <div class="space-y-5 max-w-3xl mb-8">
+          {area.bodyParagraphs.map((paragraph) => (
+            <p class="text-base md:text-lg leading-relaxed text-ui-text-muted">{paragraph}</p>
+          ))}
+        </div>
         <div class="inline-flex items-center gap-2.5 text-sm font-semibold text-[#0a2540] bg-[#eef4ff] border border-[#dbeafe] px-4 py-2.5">
           <span>Estimated arrival in {area.city}: {area.eta}</span>
         </div>
