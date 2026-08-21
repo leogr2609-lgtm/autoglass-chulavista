@@ -182,6 +182,13 @@ const pageContext = pathParts[1] ?? 'home';
 					page_path: window.location.pathname,
 					link_text: phoneLink.textContent?.trim().replace(/\s+/g, ' ') || ''
 				});
+
+				const googleTag = (window as Window & {
+					gtag?: (...args: unknown[]) => void;
+				}).gtag;
+				googleTag?.('event', 'conversion', {
+					send_to: 'AW-17960207893/96CGCJzA3uUcEJWMjPRC'
+				});
 			});
 		</script>
 	</body>
