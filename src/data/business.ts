@@ -13,7 +13,7 @@ export const business = {
     country: "US"
   },
   email: "youautoglass@gmail.com",
-  siteDomain: "https://autoglasschulavistaca.com",
+  siteDomain: "https://www.autoglasschulavistaca.com",
   ogImage: "/og-image.png",
   serviceRegion: "South San Diego County",
   hours: {
