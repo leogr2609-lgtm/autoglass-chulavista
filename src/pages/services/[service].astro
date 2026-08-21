@@ -22,7 +22,7 @@ if (!page) {
   return Astro.redirect('/');
 }
 
-const canonicalUrl = `${business.siteDomain}/services/${page.slug}`;
+const canonicalUrl = `${business.siteDomain}/services/${page.slug}/`;
 const otherServices = servicePages.filter((item) => item.slug !== page.slug);
 const pageSchemas = [
   {

@@ -24,7 +24,7 @@ if (!area) {
 
 const pageTitle = area.seoTitle;
 const pageDescription = area.seoDescription;
-const canonicalUrl = `${business.siteDomain}/auto-glass/${area.slug}`;
+const canonicalUrl = `${business.siteDomain}/auto-glass/${area.slug}/`;
 const sameAreaLinks = serviceAreas.filter((item) => item.slug !== area.slug);
 const faqs = area.faq;
 const serviceDescriptions: Record<string, string> = {
