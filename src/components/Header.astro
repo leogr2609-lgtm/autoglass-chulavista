@@ -1,24 +1,26 @@
 ---
+import { business } from '../data/business';
+
 export interface Props {
   phone: string;
 }
 const { phone } = Astro.props;
 const phoneTel = `tel:${phone.replace(/\D/g, '')}`;
 ---
-<header class="w-full bg-white z-50 shadow-sm border-b border-gray-200">
+<header class="w-full bg-white z-50 shadow-sm border-b border-gray-200" data-call-location="header">
   <!-- Top Utility Bar -->
   <div class="bg-[#0f172a] text-gray-300 text-[11px] md:text-xs py-1.5 px-4 md:px-8 font-medium tracking-wide uppercase">
     <div class="max-w-[1200px] mx-auto flex items-center justify-between">
       <div class="flex items-center gap-4 md:gap-6">
         <span class="inline-flex items-center gap-1.5">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-action" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-          In Shop & Mobile — Serving All San Diego County
+          <span class="hidden lg:inline">{business.name} | </span>In Shop & Mobile - {business.serviceRegion}
         </span>
       </div>
       <div class="flex items-center gap-4 md:gap-6">
         <span class="hidden sm:inline-flex items-center gap-1.5">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-action" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-          Mon-Sat 8AM-6PM
+          {business.hours.compact}
         </span>
         <span class="inline-flex items-center font-bold text-white">
           HABLAMOS ESPAÑOL
@@ -31,7 +33,11 @@ const phoneTel = `tel:${phone.replace(/\D/g, '')}`;
   <div class="max-w-[1200px] mx-auto px-4 md:px-8 h-14 md:h-16 flex items-center justify-between">
     <!-- Brand / Logo -->
     <a href="/" class="flex items-center no-underline transition-opacity hover:opacity-90">
-      <img src="/autoglassmobileservice-logo.png" alt="Auto Glass Mobile Service" class="h-[40px] md:h-[48px] w-auto" />
+      <img src="/autoglassmobileservice-logo.png" alt={business.profileName} class="h-[40px] md:h-[48px] w-auto" />
+      <span class="hidden lg:flex flex-col ml-3 pl-3 border-l border-gray-200 leading-tight">
+        <strong class="text-sm text-[#0f172a]">{business.name}</strong>
+        <span class="text-[11px] text-gray-500 mt-1">In-Shop & Mobile Service</span>
+      </span>
     </a>
 
     <!-- CTA Button -->
@@ -41,4 +47,12 @@ const phoneTel = `tel:${phone.replace(/\D/g, '')}`;
       <span class="md:hidden">Call Now</span>
     </a>
   </div>
+
+  <nav aria-label="Main navigation" class="border-t border-gray-100 bg-white">
+    <div class="max-w-[1200px] mx-auto px-4 md:px-8 h-10 flex items-center justify-center gap-7 md:gap-12 text-xs md:text-sm font-semibold text-gray-600">
+      <a href="/#services" class="hover:text-primary transition-colors">Services</a>
+      <a href="/#service-areas" class="hover:text-primary transition-colors">Service Areas</a>
+      <a href="/#contact" class="hover:text-primary transition-colors">Contact</a>
+    </div>
+  </nav>
 </header>

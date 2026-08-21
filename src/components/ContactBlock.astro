@@ -1,4 +1,6 @@
 ---
+import { business } from '../data/business';
+
 interface Props {
   phone: string;
   address: string;
@@ -8,7 +10,7 @@ const { phone, address, email = "youautoglass@gmail.com" } = Astro.props;
 const phoneTel = `tel:${phone.replace(/\D/g, '')}`;
 const mapsQuery = encodeURIComponent(address);
 ---
-<section class="py-16 md:py-24 bg-ui-alt" id="contact">
+<section class="py-16 md:py-24 bg-ui-alt" id="contact" data-call-location="contact-section">
   <div class="max-w-[1200px] mx-auto px-4 md:px-8">
     <div class="section-heading">
       <h2>Contact Us Today</h2>
@@ -47,7 +49,11 @@ const mapsQuery = encodeURIComponent(address);
             </div>
             <div>
               <p class="font-bold text-base mb-1 text-ui-text-main">Business Hours</p>
-              <p class="text-ui-text-muted">Mon - Fri: 7:00 AM - 6:00 PM<br/>Sat: 7:00 AM - 2:00 PM<br/>Sunday: Closed</p>
+              <p class="text-ui-text-muted">
+                {business.hours.weekdays.label}: {business.hours.weekdays.display}<br/>
+                {business.hours.saturday.label}: {business.hours.saturday.display}<br/>
+                {business.hours.sunday.label}: {business.hours.sunday.display}
+              </p>
             </div>
           </div>
         </div>

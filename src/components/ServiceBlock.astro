@@ -5,17 +5,17 @@ interface Props {
   image: string;
   images?: string[];
   highlights?: string[];
-  details?: string[];
   phone: string;
+  serviceUrl?: string;
 }
-const { title, description, image, images = [], highlights = [], details = [], phone } = Astro.props;
+const { title, description, image, images = [], highlights = [], phone, serviceUrl } = Astro.props;
 const phoneTel = `tel:${phone.replace(/\D/g, '')}`;
 const cardId = title.toLowerCase().replace(/[^a-z0-9]/g, '-');
 // Build the full image list: primary image + additional images
 const allImages = [image, ...images];
 const hasCarousel = allImages.length > 1;
 ---
-<div class="service-card card flex flex-col h-full bg-white overflow-hidden group" id={`card-${cardId}`}>
+<div class="service-card card flex flex-col h-full bg-white overflow-hidden group" id={`card-${cardId}`} data-call-location="service-card" data-service-name={title}>
   <!-- Service Image with Brand Treatment -->
   <div class="w-full aspect-[4/3] relative overflow-hidden">
     {hasCarousel ? (
@@ -62,7 +62,9 @@ const hasCarousel = allImages.length > 1;
   
   <div class="service-body p-7 md:p-9 flex flex-col flex-grow">
     <!-- Title -->
-    <h3 class="text-[22px] md:text-[26px] font-extrabold mb-3 text-[#0f172a] leading-tight group-hover:text-primary transition-colors">{title}</h3>
+    <h3 class="text-[22px] md:text-[26px] font-extrabold mb-3 text-[#0f172a] leading-tight group-hover:text-primary transition-colors">
+      {serviceUrl ? <a href={serviceUrl}>{title}</a> : title}
+    </h3>
     
     <!-- Description -->
     <p class="text-[15px] leading-relaxed mb-4" style="color: #475569;">{description}</p>
@@ -84,34 +86,10 @@ const hasCarousel = allImages.length > 1;
     <!-- Spacer to push Learn More + Button to bottom -->
     <div class="flex-grow"></div>
 
-    <!-- Expandable Details -->
-    {details.length > 0 && (
-      <div class="mb-5">
-        <button
-          type="button"
-          class="service-toggle inline-flex items-center gap-2 text-[#0a2540] text-[13px] font-bold uppercase tracking-wider hover:text-primary transition-colors cursor-pointer bg-transparent border-none p-0"
-          data-target={`details-${cardId}`}
-          aria-expanded="false"
-        >
-          <span class="toggle-text">Learn More</span>
-          <svg class="toggle-icon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
-        
-        <div id={`details-${cardId}`} class="service-details">
-          <ul class="mt-4 space-y-2.5 pt-4 border-t border-gray-100">
-            {details.map(detail => (
-              <li class="flex items-start gap-2.5 text-[14px] leading-snug" style="color: #334155;">
-                <svg class="w-4 h-4 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
-                </svg>
-                {detail}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+    {serviceUrl && (
+      <a href={serviceUrl} class="btn btn-secondary w-full py-3 text-sm mb-3">
+        View Service Details
+      </a>
     )}
     
     <!-- CTA Button — always at bottom -->
@@ -346,44 +324,10 @@ const hasCarousel = allImages.length > 1;
   .lightbox-prev { left: 20px; }
   .lightbox-next { right: 20px; }
 
-  /* Expandable panel */
-  .service-details {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
-    opacity: 0;
-  }
-
-  .service-details.is-open {
-    max-height: 300px;
-    opacity: 1;
-  }
-
-  .toggle-icon {
-    transition: transform 0.3s ease;
-  }
-
-  .service-toggle[aria-expanded="true"] .toggle-icon {
-    transform: rotate(180deg);
-  }
 </style>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // Toggle details
-    document.querySelectorAll('.service-toggle').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const targetId = btn.getAttribute('data-target');
-        const panel = document.getElementById(targetId);
-        const textEl = btn.querySelector('.toggle-text');
-        const isOpen = panel.classList.contains('is-open');
-        
-        panel.classList.toggle('is-open');
-        btn.setAttribute('aria-expanded', String(!isOpen));
-        textEl.textContent = isOpen ? 'Learn More' : 'Show Less';
-      });
-    });
-
     // Carousels
     document.querySelectorAll('[data-carousel]').forEach(carousel => {
       const slides = carousel.querySelectorAll('.carousel-slide');

@@ -12,7 +12,7 @@ interface Props {
 
 const { 
 	title, 
-	description = "Auto Glass Mobile Service in Chula Vista CA. Professional windshield replacement, rock chip repair, and mobile auto glass service across South San Diego County. Call +1 (760) 880-0711.",
+	description = `${business.name}. Professional windshield replacement, rock chip repair, and mobile auto glass service across ${business.serviceRegion}. Call ${business.phoneDisplay}.`,
 	canonicalUrl = business.siteDomain,
 	ogImage = `${business.siteDomain}${business.ogImage}`,
 	structuredData = []
@@ -29,17 +29,19 @@ const baseSchemas = [
 		"@context": "https://schema.org",
 		"@type": "AutoRepair",
 		"name": business.name,
+		"alternateName": business.profileName,
+		"legalName": business.legalName,
 		"description": "Professional mobile auto glass repair and windshield replacement service in Chula Vista and South San Diego County.",
 		"url": business.siteDomain,
 		"telephone": business.phoneE164,
 		"email": business.email,
 		"address": {
 			"@type": "PostalAddress",
-			"streetAddress": "1165 Third Ave",
-			"addressLocality": "Chula Vista",
-			"addressRegion": "CA",
-			"postalCode": "91911",
-			"addressCountry": "US"
+			"streetAddress": business.addressDetails.street,
+			"addressLocality": business.addressDetails.city,
+			"addressRegion": business.addressDetails.state,
+			"postalCode": business.addressDetails.postalCode,
+			"addressCountry": business.addressDetails.country
 		},
 		"geo": {
 			"@type": "GeoCoordinates",
@@ -58,14 +60,14 @@ const baseSchemas = [
 			{
 				"@type": "OpeningHoursSpecification",
 				"dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-				"opens": "07:00",
-				"closes": "18:00"
+				"opens": business.hours.weekdays.opens,
+				"closes": business.hours.weekdays.closes
 			},
 			{
 				"@type": "OpeningHoursSpecification",
 				"dayOfWeek": "Saturday",
-				"opens": "07:00",
-				"closes": "14:00"
+				"opens": business.hours.saturday.opens,
+				"closes": business.hours.saturday.closes
 			}
 		],
 		"priceRange": "$$",
@@ -75,6 +77,13 @@ const baseSchemas = [
 ];
 
 const allSchemas = [...baseSchemas, ...structuredData];
+const pathParts = Astro.url.pathname.split('/').filter(Boolean);
+const pageType = pathParts[0] === 'auto-glass'
+	? 'city'
+	: pathParts[0] === 'services'
+		? 'service'
+		: 'home';
+const pageContext = pathParts[1] ?? 'home';
 ---
 
 <!doctype html>
@@ -126,7 +135,7 @@ const allSchemas = [...baseSchemas, ...structuredData];
 		<meta property="og:description" content={description} />
 		<meta property="og:image" content={ogImage} />
 		<meta property="og:locale" content="en_US" />
-		<meta property="og:site_name" content="Auto Glass Mobile Service" />
+		<meta property="og:site_name" content={business.name} />
 		
 		<!-- Twitter -->
 		<meta name="twitter:card" content="summary_large_image" />
@@ -145,11 +154,35 @@ const allSchemas = [...baseSchemas, ...structuredData];
 
 		<meta name="generator" content={Astro.generator} />
 	</head>
-	<body class="bg-ui-base">
+	<body class="bg-ui-base" data-page-type={pageType} data-page-context={pageContext}>
 		<!-- Google Tag Manager (noscript) -->
 		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KM5MF8VF"
 		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		<!-- End Google Tag Manager (noscript) -->
 		<slot />
+		<script>
+			document.addEventListener('click', (event) => {
+				const target = event.target;
+				if (!(target instanceof Element)) return;
+
+				const phoneLink = target.closest('a[href^="tel:"]');
+				if (!phoneLink) return;
+
+				const trackingRegion = phoneLink.closest('[data-call-location]');
+				const serviceRegion = phoneLink.closest('[data-service-name]');
+				const body = document.body;
+				window.dataLayer = window.dataLayer || [];
+				window.dataLayer.push({
+					event: 'phone_click',
+					phone_number: phoneLink.getAttribute('href')?.replace('tel:', '') || '',
+					call_location: trackingRegion?.getAttribute('data-call-location') || 'unknown',
+					service_name: serviceRegion?.getAttribute('data-service-name') || '',
+					page_type: body.dataset.pageType || 'unknown',
+					page_context: body.dataset.pageContext || '',
+					page_path: window.location.pathname,
+					link_text: phoneLink.textContent?.trim().replace(/\s+/g, ' ') || ''
+				});
+			});
+		</script>
 	</body>
 </html>

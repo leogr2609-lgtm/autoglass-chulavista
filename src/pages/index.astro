@@ -9,12 +9,13 @@ import StickyCallBar from '../components/StickyCallBar.astro';
 import Footer from '../components/Footer.astro';
 import { serviceAreas } from '../data/serviceAreas';
 import { business, coreServices } from '../data/business';
+import { servicePages } from '../data/servicePages';
 
 const homeSchemas = [
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "Auto Glass Mobile Service",
+    "name": business.name,
     "url": business.siteDomain
   },
   {
@@ -47,80 +48,41 @@ const homeSchemas = [
 const services = [
   {
     title: "Windshield Replacement",
-    description: "Professional windshield replacement with high-quality glass. In shop or at your location.",
+    description: "Replacement options for windshields with extensive cracks or impact damage. In shop or at your location.",
     image: "/wr-black-car.webp",
     images: ["/wr-green-suv.webp", "/wr-jeep.webp"],
-    highlights: ["OEM-equivalent glass", "Work and parts guaranteed"],
-    details: [
-      "Full removal and professional reinstallation",
-      "Factory-quality fit with OEM-equivalent glass",
-      "Ready to drive as soon as service is complete",
-      "Includes seal and molding inspection"
-    ]
+    highlights: ["Vehicle-specific glass", "In-shop and mobile options"]
   },
   {
     title: "Windshield Rock Chip Repair",
-    description: "Quick repairs to stop chips and cracks before they spread.",
+    description: "Assessment and repair options for small windshield chips before the damage spreads further.",
     image: "/rc-chip-closeup.webp",
     images: ["/rc-chip-interior.webp", "/rc-chip-bullseye.webp"],
-    highlights: ["Stops cracks from spreading", "In shop and mobile service"],
-    details: [
-      "Resin injection to restore structural integrity",
-      "Best results when repaired within 48 hours",
-      "Maintains windshield structural integrity",
-      "All work and parts guaranteed"
-    ]
+    highlights: ["Repair assessment", "In-shop and mobile options"]
   },
   {
     title: "Door Glass Replacement",
-    description: "Shattered side window? We clean up and install a new one on site or at our shop.",
-    image: "/door-glass-replacement.webp",
-    images: ["/dg-quarter-glass.webp"],
-    highlights: ["Tempered safety glass", "Work and parts guaranteed"],
-    details: [
-      "Complete side window removal and glass cleanup",
-      "Tempered safety glass for all vehicle models",
-      "In shop and mobile service available",
-      "Includes weatherstrip and seal check"
-    ]
+    description: "Replacement options for shattered or damaged driver and passenger windows.",
+    image: "/dg-quarter-glass.webp",
+    highlights: ["Vehicle-specific glass", "In-shop and mobile options"]
   },
   {
     title: "Window Regulator Repair",
-    description: "Window stuck or won't roll up? We fix motors and regulators.",
-    image: "/window-regulator-repair.webp",
-    images: ["/wr-regulator-part.webp"],
-    highlights: ["On-site diagnosis", "Parts sourced same-day"],
-    details: [
-      "Motor and regulator diagnosis on site",
-      "Electrical and manual systems supported",
-      "Parts sourced same-day when possible",
-      "Fully tested before job completion"
-    ]
+    description: "Diagnosis and repair for car windows that are stuck, slow, noisy, or out of position.",
+    image: "/wr-regulator-part.webp",
+    highlights: ["Diagnosis before repair", "Parts vary by vehicle"]
   },
   {
     title: "Back Glass Replacement",
-    description: "Complete rear windshield replacement for all vehicle types.",
-    image: "/back-glass-replacement.webp",
-    images: ["/bg-pickup-red.webp"],
-    highlights: ["Laminated safety glass option", "All vehicle types"],
-    details: [
-      "Complete rear windshield replacement",
-      "Laminated safety glass available as an option",
-      "Includes trim and seal replacement",
-      "All work and parts guaranteed"
-    ]
+    description: "Replacement service for broken or damaged rear vehicle glass.",
+    image: "/bg-pickup-red.webp",
+    highlights: ["Vehicle-specific glass", "In-shop and mobile options"]
   },
   {
     title: "Leak and Molding Repair",
-    description: "Sealing leaks and securing loose molding to protect your interior.",
-    image: "/windshield-leak-molding-repair.webp",
-    highlights: ["Water test diagnosis", "All work guaranteed"],
-    details: [
-      "Pinpoint leak source with water testing",
-      "Replace worn molding and rubber seals",
-      "Prevents interior water damage",
-      "All work and parts guaranteed"
-    ]
+    description: "Inspection and service for water, wind noise, or loose molding around vehicle glass.",
+    image: "/wr-jeep.webp",
+    highlights: ["Inspection required", "Glass and molding service"]
   }
 ];
 
@@ -141,16 +103,16 @@ const reviews = [
 
 const whyChooseUs = [
   {
-    title: "Same-Day Service",
-    description: "Most jobs completed the same day you call."
+    title: "Flexible Scheduling",
+    description: "Call to confirm the current in-shop and mobile appointment options."
   },
   {
     title: "In Shop and Mobile",
     description: "Visit our shop or we come to your home, work, or wherever you are."
   },
   {
-    title: "Work and Parts Guaranteed",
-    description: "All labor and parts backed by our warranty for your peace of mind."
+    title: "Real Local Work",
+    description: "See photographs from actual auto glass jobs completed by the business."
   },
   {
     title: "Free Phone Quotes",
@@ -171,7 +133,7 @@ const coverageAreas = serviceAreas;
 
   <main>
     <Hero
-      headline="In Shop or Mobile Auto Glass Service in Chula Vista Serving All San Diego CA"
+      headline="Auto Glass Chula Vista CA - In-Shop & Mobile Service"
       subheadline="Fast, reliable auto glass repair and replacement - at our shop or your location. Cracked windshields, broken door glass, and stuck windows. Get back on the road safely today."
       phone={business.phoneDisplay}
     />
@@ -195,8 +157,8 @@ const coverageAreas = serviceAreas;
               image={service.image}
               images={service.images}
               highlights={service.highlights}
-              details={service.details}
               phone={business.phoneDisplay}
+              serviceUrl={`/services/${servicePages.find((item) => item.name === service.title)?.slug}`}
             />
           ))}
         </div>
@@ -253,7 +215,7 @@ const coverageAreas = serviceAreas;
       </div>
     </section>
 
-    <section class="py-12 md:py-16 bg-white border-y border-ui-border">
+    <section id="service-areas" class="py-12 md:py-16 bg-white border-y border-ui-border scroll-mt-24">
       <div class="max-w-[1200px] mx-auto px-4 md:px-8 text-center">
         <div class="flex items-center justify-center gap-2.5 mb-6">
           <div class="w-8 h-8 bg-primary-light text-primary rounded-lg flex items-center justify-center">
@@ -277,6 +239,6 @@ const coverageAreas = serviceAreas;
     <ContactBlock phone={business.phoneDisplay} address={business.address} />
   </main>
 
-  <Footer businessName={business.legalName} phone={business.phoneDisplay} address={business.address} />
+  <Footer businessName={business.name} phone={business.phoneDisplay} address={business.address} />
   <StickyCallBar phone={business.phoneDisplay} />
 </Layout>

@@ -7,6 +7,7 @@ import Footer from '../../components/Footer.astro';
 import StickyCallBar from '../../components/StickyCallBar.astro';
 import { serviceAreas } from '../../data/serviceAreas';
 import { business, coreServices } from '../../data/business';
+import { servicePages } from '../../data/servicePages';
 
 export async function getStaticPaths() {
   return serviceAreas.map((area) => ({
@@ -26,6 +27,14 @@ const pageDescription = area.seoDescription;
 const canonicalUrl = `${business.siteDomain}/auto-glass/${area.slug}`;
 const sameAreaLinks = serviceAreas.filter((item) => item.slug !== area.slug);
 const faqs = area.faq;
+const serviceDescriptions: Record<string, string> = {
+  "Windshield Replacement": "Replacement options for cracked or damaged front windshields.",
+  "Windshield Rock Chip Repair": "Repair options for small chips before the damage spreads further.",
+  "Door Glass Replacement": "Replacement for shattered or damaged driver and passenger windows.",
+  "Window Regulator Repair": "Diagnosis and repair for car windows that will not move correctly.",
+  "Back Glass Replacement": "Replacement service for damaged rear vehicle glass.",
+  "Leak and Molding Repair": "Inspection and service for glass leaks and loose or damaged molding."
+};
 const pageSchemas = [
 {
   "@context": "https://schema.org",
@@ -71,11 +80,11 @@ const pageSchemas = [
     telephone: business.phoneE164,
     address: {
       "@type": "PostalAddress",
-      streetAddress: "1165 Third Ave",
-      addressLocality: "Chula Vista",
-      addressRegion: "CA",
-      postalCode: "91911",
-      addressCountry: "US"
+      streetAddress: business.addressDetails.street,
+      addressLocality: business.addressDetails.city,
+      addressRegion: business.addressDetails.state,
+      postalCode: business.addressDetails.postalCode,
+      addressCountry: business.addressDetails.country
     }
   },
   hasOfferCatalog: {
@@ -97,62 +106,113 @@ const pageSchemas = [
   <Header phone={business.phoneDisplay} />
 
   <main>
-    <section class="py-16 md:py-24 bg-ui-base border-b border-ui-border">
+    <section class="py-12 md:py-20 bg-ui-base border-b border-ui-border" data-call-location="city-hero">
       <div class="max-w-[1200px] mx-auto px-4 md:px-8">
         <nav class="text-sm mb-5 text-ui-text-muted">
           <a href="/" class="hover:text-primary transition-colors">Home</a>
           <span class="mx-2">/</span>
           <span>Auto Glass {area.city}, {area.state}</span>
         </nav>
-        <p class="text-sm font-semibold uppercase tracking-wide text-primary mb-4">Serving {area.city}, {area.state}</p>
-        <h1 class="mb-5">Mobile Auto Glass and Windshield Replacement in {area.city}, {area.state}</h1>
-        <div class="space-y-5 max-w-3xl mb-8">
-          {area.bodyParagraphs.map((paragraph) => (
-            <p class="text-base md:text-lg leading-relaxed text-ui-text-muted">{paragraph}</p>
-          ))}
-        </div>
-        <div class="inline-flex items-center gap-2.5 text-sm font-semibold text-[#0a2540] bg-[#eef4ff] border border-[#dbeafe] px-4 py-2.5">
-          <span>Estimated arrival in {area.city}: {area.eta}</span>
+        <div class="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-8 lg:gap-14 items-center">
+          <div>
+            <p class="text-sm font-semibold uppercase tracking-wide text-primary mb-4">In-Shop & Mobile Service</p>
+            <h1 class="mb-5">Auto Glass Repair & Windshield Replacement in {area.city}, {area.state}</h1>
+            <p class="text-base md:text-lg leading-relaxed text-ui-text-muted mb-7">{area.intro}</p>
+            <div class="flex flex-col sm:flex-row gap-3 mb-7">
+              <a href={`tel:${business.phoneE164}`} class="btn btn-primary btn-md justify-center">Call {business.phoneDisplay}</a>
+              <a href="#city-services" class="btn btn-secondary btn-md justify-center">View Services</a>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-sm text-ui-text-muted border-t border-ui-border pt-5">
+              <p><strong class="text-ui-text">Shop:</strong> {business.address}</p>
+              <p><strong class="text-ui-text">Hours:</strong> {business.hours.compact}</p>
+            </div>
+          </div>
+          <div class="aspect-[4/3] overflow-hidden border border-ui-border bg-ui-alt">
+            <img
+              src="/wr-black-car.webp"
+              alt={`Windshield removal performed by Auto Glass Mobile Service for ${area.city}, California`}
+              class="w-full h-full object-cover"
+              width="720"
+              height="540"
+              loading="eager"
+            />
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="py-16 md:py-20 bg-ui-alt">
+    <section id="city-services" class="py-16 md:py-20 bg-ui-alt scroll-mt-24">
       <div class="max-w-[1200px] mx-auto px-4 md:px-8">
         <div class="section-heading">
           <h2>Services in {area.city}</h2>
-          <p>We provide mobile and in-shop service for the most common auto glass needs.</p>
+          <p>Call to confirm the right service, glass or part, and current availability for your vehicle.</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {coreServices.map((service) => (
-            <div class="card p-6">
+            <a href={`/services/${servicePages.find((item) => item.name === service)?.slug}`} class="card p-6 block hover:border-primary/40">
               <h3 class="text-xl mb-2">{service}</h3>
-              <p class="text-sm">Available for drivers in {area.city}, with same-day scheduling when possible.</p>
-            </div>
+              <p class="text-sm">{serviceDescriptions[service]}</p>
+              <p class="text-sm font-semibold text-primary mt-4">View service details</p>
+            </a>
           ))}
         </div>
       </div>
     </section>
 
-    <section class="py-12 md:py-16 bg-ui-base border-y border-ui-border">
+    <section class="py-16 md:py-20 bg-ui-base border-y border-ui-border">
+      <div class="max-w-[1200px] mx-auto px-4 md:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-[1.35fr_0.65fr] gap-10 lg:gap-16">
+          <div>
+            <p class="text-sm font-semibold uppercase tracking-wide text-primary mb-3">Local Service Information</p>
+            <h2 class="mb-5">Auto Glass Service for {area.city} Drivers</h2>
+            <div class="space-y-5">
+              {area.bodyParagraphs.map((paragraph) => (
+                <p class="text-base leading-relaxed text-ui-text-muted">{paragraph}</p>
+              ))}
+            </div>
+          </div>
+          <aside class="border-l-4 border-primary bg-ui-alt p-6 self-start">
+            <h3 class="text-xl mb-3">Coverage Focus</h3>
+            <p class="text-sm mb-5">{area.localFocus}</p>
+            <ul class="space-y-3">
+              {area.nearbyZones.map((zone) => (
+                <li class="text-sm font-medium text-ui-text">{zone}</li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-14 md:py-16 bg-white">
       <div class="max-w-[1200px] mx-auto px-4 md:px-8">
         <div class="section-heading">
-          <h2>{area.city} Coverage Focus</h2>
-          <p>Areas where we commonly schedule mobile service in and around {area.city}.</p>
+          <h2>Requesting Service Is Simple</h2>
+          <p>One phone call gives us the information needed to check the right service and availability.</p>
         </div>
-        <div class="flex flex-wrap justify-center gap-3">
-          {area.nearbyZones.map((zone) => (
-            <span class="px-4 py-2 bg-ui-alt border border-ui-border rounded-full text-sm font-medium text-ui-text-muted">
-              {zone}
-            </span>
-          ))}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="border-t-4 border-primary pt-5">
+            <p class="text-sm font-semibold text-primary mb-2">STEP 1</p>
+            <h3 class="text-xl mb-2">Call With Vehicle Details</h3>
+            <p class="text-sm">Have the year, make, model, and damaged glass ready.</p>
+          </div>
+          <div class="border-t-4 border-primary pt-5">
+            <p class="text-sm font-semibold text-primary mb-2">STEP 2</p>
+            <h3 class="text-xl mb-2">Confirm the Service Option</h3>
+            <p class="text-sm">We will discuss mobile coverage or an appointment at the Chula Vista shop.</p>
+          </div>
+          <div class="border-t-4 border-primary pt-5">
+            <p class="text-sm font-semibold text-primary mb-2">STEP 3</p>
+            <h3 class="text-xl mb-2">Schedule the Appointment</h3>
+            <p class="text-sm">Choose from the available times after the glass or part is confirmed.</p>
+          </div>
         </div>
       </div>
     </section>
 
     <CtaBlock
       headline={`Need auto glass service in ${area.city}?`}
-      subheadline={`Call now for a free phone estimate in ${area.city} and fast scheduling.`}
+      subheadline={`Call for a free phone estimate and current scheduling options in ${area.city}.`}
       phone={business.phoneDisplay}
     />
 
@@ -194,6 +254,6 @@ const pageSchemas = [
     <ContactBlock phone={business.phoneDisplay} address={business.address} />
   </main>
 
-  <Footer businessName={business.legalName} phone={business.phoneDisplay} address={business.address} />
+  <Footer businessName={business.name} phone={business.phoneDisplay} address={business.address} />
   <StickyCallBar phone={business.phoneDisplay} />
 </Layout>

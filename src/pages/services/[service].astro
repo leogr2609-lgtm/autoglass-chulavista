@@ -1,0 +1,257 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import CtaBlock from '../../components/CtaBlock.astro';
+import ContactBlock from '../../components/ContactBlock.astro';
+import Footer from '../../components/Footer.astro';
+import StickyCallBar from '../../components/StickyCallBar.astro';
+import { business } from '../../data/business';
+import { serviceAreas } from '../../data/serviceAreas';
+import { servicePages } from '../../data/servicePages';
+
+export async function getStaticPaths() {
+  return servicePages.map((item) => ({
+    params: { service: item.slug }
+  }));
+}
+
+const { service } = Astro.params;
+const page = servicePages.find((item) => item.slug === service);
+
+if (!page) {
+  return Astro.redirect('/');
+}
+
+const canonicalUrl = `${business.siteDomain}/services/${page.slug}`;
+const otherServices = servicePages.filter((item) => item.slug !== page.slug);
+const pageSchemas = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: page.name,
+    description: page.seoDescription,
+    url: canonicalUrl,
+    areaServed: serviceAreas.map((area) => ({
+      "@type": "City",
+      name: area.city
+    })),
+    provider: {
+      "@type": "AutoRepair",
+      name: business.name,
+      alternateName: business.profileName,
+      telephone: business.phoneE164,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: business.addressDetails.street,
+        addressLocality: business.addressDetails.city,
+        addressRegion: business.addressDetails.state,
+        postalCode: business.addressDetails.postalCode,
+        addressCountry: business.addressDetails.country
+      }
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: page.faq.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.a
+      }
+    }))
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: business.siteDomain
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: page.name,
+        item: canonicalUrl
+      }
+    ]
+  }
+];
+---
+
+<Layout title={page.seoTitle} description={page.seoDescription} canonicalUrl={canonicalUrl} structuredData={pageSchemas}>
+  <Header phone={business.phoneDisplay} />
+
+  <main>
+    <section class="py-12 md:py-20 bg-ui-base border-b border-ui-border" data-call-location="service-hero" data-service-name={page.name}>
+      <div class="max-w-[1200px] mx-auto px-4 md:px-8">
+        <nav class="text-sm mb-5 text-ui-text-muted">
+          <a href="/" class="hover:text-primary transition-colors">Home</a>
+          <span class="mx-2">/</span>
+          <span>{page.name}</span>
+        </nav>
+        <div class="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-8 lg:gap-14 items-center">
+          <div>
+            <p class="text-sm font-semibold uppercase tracking-wide text-primary mb-4">In-Shop & Mobile Auto Glass Service</p>
+            <h1 class="mb-5">{page.name} in Chula Vista, CA</h1>
+            <p class="text-base md:text-lg leading-relaxed text-ui-text-muted mb-7">{page.intro}</p>
+            <div class="flex flex-col sm:flex-row gap-3 mb-7">
+              <a href={`tel:${business.phoneE164}`} class="btn btn-primary btn-md justify-center">Call {business.phoneDisplay}</a>
+              <a href="#service-details" class="btn btn-secondary btn-md justify-center">Service Details</a>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-sm text-ui-text-muted border-t border-ui-border pt-5">
+              <p><strong class="text-ui-text">Shop:</strong> {business.address}</p>
+              <p><strong class="text-ui-text">Hours:</strong> {business.hours.compact}</p>
+            </div>
+          </div>
+          <div class="aspect-[4/3] overflow-hidden border border-ui-border bg-ui-alt">
+            <img
+              src={page.image}
+              alt={page.imageAlt}
+              class="w-full h-full object-cover"
+              width="720"
+              height="540"
+              loading="eager"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 md:py-20 bg-ui-alt">
+      <div class="max-w-[1200px] mx-auto px-4 md:px-8">
+        <div class="section-heading">
+          <h2>{page.signsTitle}</h2>
+          <p>Call and describe what you see so we can discuss the appropriate service option.</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {page.signs.map((sign, index) => (
+            <div class="card p-6">
+              <p class="text-sm font-semibold text-primary mb-3">{String(index + 1).padStart(2, '0')}</p>
+              <p class="font-semibold text-ui-text leading-relaxed">{sign}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="service-details" class="py-16 md:py-20 bg-ui-base border-y border-ui-border scroll-mt-24">
+      <div class="max-w-[1200px] mx-auto px-4 md:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-10 lg:gap-16">
+          <div>
+            <p class="text-sm font-semibold uppercase tracking-wide text-primary mb-3">Service Information</p>
+            <h2 class="mb-5">What to Know About {page.name}</h2>
+            <div class="space-y-5">
+              {page.bodyParagraphs.map((paragraph) => (
+                <p class="text-base leading-relaxed text-ui-text-muted">{paragraph}</p>
+              ))}
+            </div>
+          </div>
+          <aside class="border-l-4 border-primary bg-ui-alt p-6 self-start">
+            <h3 class="text-xl mb-4">What We Handle</h3>
+            <ul class="space-y-3">
+              {page.includes.map((item) => (
+                <li class="text-sm font-medium text-ui-text">{item}</li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-14 md:py-16 bg-white">
+      <div class="max-w-[1200px] mx-auto px-4 md:px-8">
+        <div class="section-heading">
+          <h2>How to Request a Quote</h2>
+          <p>Providing the right information helps us check the service and appointment options.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="border-t-4 border-primary pt-5">
+            <p class="text-sm font-semibold text-primary mb-2">STEP 1</p>
+            <h3 class="text-xl mb-2">Identify the Vehicle</h3>
+            <p class="text-sm">Have the year, make, model, and body style available.</p>
+          </div>
+          <div class="border-t-4 border-primary pt-5">
+            <p class="text-sm font-semibold text-primary mb-2">STEP 2</p>
+            <h3 class="text-xl mb-2">Describe the Problem</h3>
+            <p class="text-sm">Tell us which glass is affected and what happened.</p>
+          </div>
+          <div class="border-t-4 border-primary pt-5">
+            <p class="text-sm font-semibold text-primary mb-2">STEP 3</p>
+            <h3 class="text-xl mb-2">Confirm an Appointment</h3>
+            <p class="text-sm">Discuss the available in-shop or mobile scheduling options.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <CtaBlock
+      headline={`Need ${page.name.toLowerCase()}?`}
+      subheadline="Call for a free phone estimate and current scheduling options."
+      phone={business.phoneDisplay}
+    />
+
+    <section class="py-16 md:py-20 bg-ui-base border-y border-ui-border">
+      <div class="max-w-[1200px] mx-auto px-4 md:px-8">
+        <div class="section-heading">
+          <h2>Frequently Asked Questions</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {page.faq.map((faq) => (
+            <div class="card p-6">
+              <h3 class="text-lg mb-3">{faq.q}</h3>
+              <p class="text-sm">{faq.a}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="py-12 md:py-16 bg-white">
+      <div class="max-w-[1200px] mx-auto px-4 md:px-8">
+        <div class="section-heading">
+          <h2>Other Auto Glass Services</h2>
+          <p>Explore the other services available through Auto Glass Chula Vista CA.</p>
+        </div>
+        <div class="flex flex-wrap gap-3 justify-center">
+          {otherServices.map((item) => (
+            <a
+              href={`/services/${item.slug}`}
+              class="px-4 py-2 bg-ui-alt border border-ui-border text-sm font-medium text-ui-text-muted hover:border-primary/40 hover:text-primary transition-colors duration-200"
+            >
+              {item.name}
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="py-12 md:py-16 bg-ui-alt border-y border-ui-border">
+      <div class="max-w-[1200px] mx-auto px-4 md:px-8">
+        <div class="section-heading">
+          <h2>Service Areas</h2>
+          <p>View local service information for cities within our South San Diego County coverage area.</p>
+        </div>
+        <div class="flex flex-wrap gap-3 justify-center">
+          {serviceAreas.map((area) => (
+            <a
+              href={`/auto-glass/${area.slug}`}
+              class="px-4 py-2 bg-white border border-ui-border text-sm font-medium text-ui-text-muted hover:border-primary/40 hover:text-primary transition-colors duration-200"
+            >
+              {area.city}, {area.state}
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <ContactBlock phone={business.phoneDisplay} address={business.address} />
+  </main>
+
+  <Footer businessName={business.name} phone={business.phoneDisplay} address={business.address} />
+  <StickyCallBar phone={business.phoneDisplay} />
+</Layout>

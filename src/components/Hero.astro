@@ -7,7 +7,7 @@ interface Props {
 const { headline, subheadline, phone } = Astro.props;
 const phoneTel = `tel:${phone.replace(/\D/g, '')}`;
 ---
-<section class="relative bg-[var(--color-primary)] text-white overflow-hidden border-b-8 border-action">
+<section class="relative bg-[var(--color-primary)] text-white overflow-hidden border-b-8 border-action" data-call-location="home-hero">
   <!-- Image & Dynamic Background Pattern -->
   <div class="absolute inset-0 z-0 bg-[#041e42]">
     <!-- Main Hero Image -->
