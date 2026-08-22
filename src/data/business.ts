@@ -12,7 +12,6 @@ export const business = {
     postalCode: "91911",
     country: "US"
   },
-  email: "youautoglass@gmail.com",
   siteDomain: "https://www.autoglasschulavistaca.com",
   ogImage: "/og-image.png",
   serviceRegion: "South San Diego County",

@@ -4,9 +4,8 @@ import { business } from '../data/business';
 interface Props {
   phone: string;
   address: string;
-  email?: string;
 }
-const { phone, address, email = "youautoglass@gmail.com" } = Astro.props;
+const { phone, address } = Astro.props;
 const phoneTel = `tel:${phone.replace(/\D/g, '')}`;
 const mapsQuery = encodeURIComponent(address);
 ---
